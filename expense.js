@@ -80,17 +80,21 @@ function loadData(){
         //total spending
         let totalSpending = 0
         amounts.forEach((amount)=> totalSpending += amount)
-        totalSpendingField.innerHTML += "<div>"+  totalSpending + "₺ </div>"
+        totalSpendingField.innerHTML += "<div>"+  totalSpending.toFixed(2) + "₺ </div>"
     
         //Balance 
     
         let budget = localStorage.getItem("budget")
-        let budgetLeft = Number(budget) - totalSpending
-        balanceField.innerHTML = budgetLeft.toLocaleString("en") +"₺"
+        let budgetLeft = (Number(budget) - totalSpending).toFixed(2)
+        balanceField.innerHTML = budgetLeft +"₺"
     
         //average spending
-        let averageSpending= totalSpending / amounts.length
-        averageField.innerHTML += "<div>"+ averageSpending.toFixed(2)+ "₺ </div>"
+        if (amounts.length >0){
+            let averageSpending= (totalSpending / amounts.length).toFixed(2)
+            averageField.innerHTML += "<div>"+ averageSpending+ "₺ </div>"
+
+        }
+        
     
         //Dates
         let todaysDate = new Date(`${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`)
@@ -109,9 +113,9 @@ function loadData(){
     
         // Daily average
       
-        let dailyAverage = totalSpending / passedDays
+        let dailyAverage = (totalSpending / passedDays).toFixed(2)
         if(passedDays>0 && dailyAverage > 1){
-            dailyAverageField.innerHTML = dailyAverage.toLocaleString("en") +"₺"
+            dailyAverageField.innerHTML = dailyAverage +"₺"
 
         }
     
@@ -119,8 +123,13 @@ function loadData(){
     
         // left Days Average
         
+        
         let leftDaysAverage = (budgetLeft / leftDays).toFixed(2)
-        leftDaysAverageField.innerHTML=leftDaysAverage.toLocaleString("en")+"₺"
+        if (leftDays>0 && leftDaysAverage > 1 ){
+            leftDaysAverageField.innerHTML=leftDaysAverage.toLocaleString("en")+"₺"
+
+        }else {}
+        
         
     }
 }
